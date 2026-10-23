@@ -1,12 +1,14 @@
 # Leerdoel 4
 
-Op 23 oktober 2026 heb ik OefenAPI met ZAP 2.17.0 getest. De app draaide alleen op 127.0.0.1:5080 en SecureMode stond op false. Via MCP in Cursor gaf zap_version 2.17.0 terug, dus die koppeling deed het.
+Op 23 oktober 2026 heb ik OefenAPI met ZAP 2.17.0 getest. De app draaide alleen op 127.0.0.1:5080 en SecureMode stond op false. De MCP-server van ZAP luisterde op 127.0.0.1:8282.
 
-Ik heb in ZAP een context OefenApi gemaakt, alleen voor http://127.0.0.1:5080. De OpenAPI-spec kwam van http://127.0.0.1:5080/openapi/v1.json, met dezelfde host als target. In de Sites-lijst stonden daarna de paden van de API, onder andere /api/login en /api/clients/1. Bij /api/admin/users/10 heeft ZAP zelf een voorbeeld-id gekozen.
+Vanuit Cursor, via MCP, heb ik deze tools aangeroepen. zap_version gaf 2.17.0. zap_create_context maakte de context OefenApi, alleen voor http://127.0.0.1:5080. zap_start_spider op die context werd spider-0 en eindigde op 100%. zap_start_active_scan op dezelfde context werd ascan-0 en eindigde ook op 100%. De alerts heb ik daarna gelezen met zap_read_resource op zap://alerts. Die stappen heb ik niet in het ZAP-venster aangeklikt.
+
+De OpenAPI-import ging niet via MCP. Die tool zit er niet bij. Ik heb de ZAP-API aangeroepen via de proxy op 127.0.0.1:8080, pad /JSON/openapi/action/importUrl/. De spec was http://127.0.0.1:5080/openapi/v1.json, de target dezelfde host, context-id 2. In de Sites-lijst stonden daarna de paden, onder andere /api/login en /api/clients/1. Bij /api/admin/users/10 heeft ZAP zelf een voorbeeld-id gekozen.
 
 De gewone requests gingen via de proxy op 127.0.0.1:8080, met de header X-Test-Run: leerdoel-4. Ik logde in als account-a, haalde mijn eigen client op, zocht op Kaas, haalde mijn eigen user op, deed een gewone PUT en vroeg bulkdata met pageSize 20. In de History zijn dat de nummers 37 tot en met 42. Allemaal status 200.
 
-Daarna een spider (spider-0) en een actieve scan (ascan-0), allebei alleen op die context. Allebei eindigden op 100%. Na de scan stonden er 3668 regels in de History.
+Na die spider en die scan stonden er 3668 regels in de History.
 
 ZAP meldde SQL injection op GET /api/clients, parameter search. Alert 40018, risico High, confidence Low, History 896, om 13:12. Het antwoord was een 500. In de body stond een SQLite-fout met een stacktrace. Een aparte melding voor die stacktrace kwam er niet. Verder miste X-Content-Type-Options op 15 responses (Low, plugin 10021). Kestrel stond er alleen als informational.
 
@@ -35,3 +37,5 @@ Stuurde ik een Origin-header mee, dan werd Access-Control-Allow-Origin *, Histor
 | API8 | headers, CORS, fouttekst | deels, alleen X-Content-Type-Options | CORS * in History 3690, Server-header Kestrel |
 
 De veilige modus heb ik deze keer niet gescand.
+
+De History-export staat in zap-history.csv. Het alert-rapport van 13:25 staat in 2026-10-23-ZAP-Report-.html. In de csv is id 3691 een POST naar 127.0.0.1:8282, de MCP-poort. ZAP zet bij die regel de tijd op 1 januari 1970. Dat is de export, niet het tijdstip van de call.
