@@ -8,7 +8,9 @@ De OpenAPI-import ging niet via MCP. Die tool zit er niet bij. Ik heb de ZAP-API
 
 De gewone requests gingen via de proxy op 127.0.0.1:8080, met de header X-Test-Run: leerdoel-4. Ik logde in als account-a, haalde mijn eigen client op, zocht op Kaas, haalde mijn eigen user op, deed een gewone PUT en vroeg bulkdata met pageSize 20. In de History zijn dat de nummers 37 tot en met 42. Allemaal status 200.
 
-Na die spider en die scan stonden er 3668 regels in de History.
+Na die spider en die scan stonden er 3668 regels in de History. De spider-export staat in spider.csv. Dat zijn 19 URL's, allemaal Seed. ZAP nam robots.txt en sitemap.xml zelf als startpunt. Nieuwe paden kwamen daar niet uit.
+
+Later heb ik de actieve scan nog een keer gestart, via MCP, nu op de URL http://127.0.0.1:5080. Dat werd ascan-1 en die eindigde ook op 100%. De export daarvan is active-scan.csv, vanaf 13:49, id 8065 en verder, 4001 requests. Een POST naar poort 8282 zit daar niet in. Na die scan stond alert 10098 er wel bij, Cross-Domain Misconfiguration, Medium. Het bewijs is Access-Control-Allow-Origin: * op History 3690, dezelfde request als waar ik de Origin-header zelf meestuurde.
 
 ZAP meldde SQL injection op GET /api/clients, parameter search. Alert 40018, risico High, confidence Low, History 896, om 13:12. Het antwoord was een 500. In de body stond een SQLite-fout met een stacktrace. Een aparte melding voor die stacktrace kwam er niet. Verder miste X-Content-Type-Options op 15 responses (Low, plugin 10021). Kestrel stond er alleen als informational.
 
@@ -24,7 +26,7 @@ pageSize 500 op /api/bulkdata gaf 200. In het antwoord stond pageSize 500 en all
 
 DELETE /api/admin/users/2 als account-a gaf 204 (History 3688). Account-b is daarmee weg tot de app opnieuw start. Bij een herstart wordt de database weer gevuld.
 
-Stuurde ik een Origin-header mee, dan werd Access-Control-Allow-Origin *, History 3690. Zonder die header zet de app de CORS-header niet, en ZAP heeft hem niet gemeld. De Server-header was Kestrel. De missende nosniff-header had ZAP wel gevonden.
+Stuurde ik een Origin-header mee, dan werd Access-Control-Allow-Origin *, History 3690. Zonder die header zet de app de CORS-header niet. Bij de eerste scan stond daar geen alert op. De Server-header was Kestrel. De missende nosniff-header had ZAP wel gevonden.
 
 | Punt | Endpoint | Door ZAP | Zelf nagelopen |
 | --- | --- | --- | --- |
@@ -34,7 +36,7 @@ Stuurde ik een Origin-header mee, dan werd Access-Control-Allow-Origin *, Histor
 | API4 | GET /api/bulkdata | nee | ja, History 3687, pageSize 500 werd geaccepteerd |
 | API5 | DELETE /api/admin/users/{id} | nee | ja, History 3688, status 204 zonder admin-rol |
 | SQL-injectie | GET /api/clients?search= | ja, alert 40018, History 896 | de 500 bevatte ook een stacktrace, zonder aparte alert |
-| API8 | headers, CORS, fouttekst | deels, alleen X-Content-Type-Options | CORS * in History 3690, Server-header Kestrel |
+| API8 | headers, CORS, fouttekst | deels. Eerst alleen X-Content-Type-Options. Na ascan-1 ook CORS, alert 10098, op History 3690 | Server-header Kestrel, en de stacktrace in de 500 |
 
 De veilige modus heb ik deze keer niet gescand.
 
