@@ -1,0 +1,35 @@
+ID,Source,Req. Timestamp,Method,URL,Code,Reason,RTT,Size Resp. Body,Highest Alert,Note,Tags
+6,Manual,Fri Oct 23 13:04:20 CEST 2026,GET,http://127.0.0.1:5080/,200,OK,7,67,Low,false,JSON
+8,Manual,Fri Oct 23 13:04:20 CEST 2026,POST,http://127.0.0.1:5080/api/login,400,Bad Request,7,0,Informational,false,
+10,Manual,Fri Oct 23 13:04:20 CEST 2026,GET,http://127.0.0.1:5080/api/clients/10,401,Unauthorized,2,26,,false,JSON
+12,Manual,Fri Oct 23 13:04:20 CEST 2026,GET,http://127.0.0.1:5080/api/clients?search=ZAP,401,Unauthorized,3,26,,false,JSON
+13,Manual,Fri Oct 23 13:04:20 CEST 2026,GET,http://127.0.0.1:5080/api/users/10,401,Unauthorized,1,26,,false,JSON
+15,Manual,Fri Oct 23 13:04:20 CEST 2026,PUT,http://127.0.0.1:5080/api/users/10,401,Unauthorized,2,26,,false,JSON
+16,Manual,Fri Oct 23 13:04:20 CEST 2026,GET,http://127.0.0.1:5080/api/bulkdata?page=10&pageSize=10,401,Unauthorized,1,26,,false,JSON
+17,Manual,Fri Oct 23 13:04:20 CEST 2026,DELETE,http://127.0.0.1:5080/api/admin/users/10,401,Unauthorized,1,26,,false,JSON
+22,Proxy,Fri Oct 23 13:10:14 CEST 2026,GET,http://127.0.0.1:5080/,200,OK,2,67,Low,false,JSON
+24,Manual,Fri Oct 23 13:11:07 CEST 2026,GET,http://127.0.0.1:5080/openapi/v1.json,200,OK,4,16632,Low,false,JSON
+26,Manual,Fri Oct 23 13:11:07 CEST 2026,GET,http://127.0.0.1:5080/,200,OK,0,67,Low,false,JSON
+27,Manual,Fri Oct 23 13:11:07 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,20,32,Informational,false,JSON
+28,Manual,Fri Oct 23 13:11:07 CEST 2026,GET,http://127.0.0.1:5080/api/clients/10,401,Unauthorized,4,26,,false,JSON
+29,Manual,Fri Oct 23 13:11:07 CEST 2026,GET,http://127.0.0.1:5080/api/clients?search=ZAP,401,Unauthorized,2,26,,false,JSON
+30,Manual,Fri Oct 23 13:11:07 CEST 2026,GET,http://127.0.0.1:5080/api/users/10,401,Unauthorized,1,26,,false,JSON
+31,Manual,Fri Oct 23 13:11:07 CEST 2026,PUT,http://127.0.0.1:5080/api/users/10,401,Unauthorized,2,26,,false,JSON
+32,Manual,Fri Oct 23 13:11:07 CEST 2026,GET,http://127.0.0.1:5080/api/bulkdata?page=10&pageSize=10,401,Unauthorized,0,26,,false,JSON
+33,Manual,Fri Oct 23 13:11:07 CEST 2026,DELETE,http://127.0.0.1:5080/api/admin/users/10,401,Unauthorized,1,26,,false,JSON
+37,Proxy,Fri Oct 23 13:11:24 CEST 2026,POST,http://127.0.0.1:5080/api/login,200,OK,23,115,Low,false,JSON
+38,Proxy,Fri Oct 23 13:11:24 CEST 2026,GET,http://127.0.0.1:5080/api/clients/1,200,OK,5,121,Low,false,JSON
+39,Proxy,Fri Oct 23 13:11:24 CEST 2026,GET,http://127.0.0.1:5080/api/clients?search=Kaas,200,OK,3,133,Low,false,JSON
+40,Proxy,Fri Oct 23 13:11:24 CEST 2026,GET,http://127.0.0.1:5080/api/users/1,200,OK,3,104,Low,false,JSON
+41,Proxy,Fri Oct 23 13:11:24 CEST 2026,PUT,http://127.0.0.1:5080/api/users/1,200,OK,3,104,Low,false,JSON
+42,Proxy,Fri Oct 23 13:11:24 CEST 2026,GET,http://127.0.0.1:5080/api/bulkdata?page=1&pageSize=20,200,OK,4,1628,Low,false,JSON
+3682,Proxy,Fri Oct 23 13:13:22 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,8,32,,false,JSON
+3683,Proxy,Fri Oct 23 13:13:22 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,10,31,,false,
+3684,Proxy,Fri Oct 23 13:13:22 CEST 2026,POST,http://127.0.0.1:5080/api/login,200,OK,13,115,,false,JSON
+3685,Proxy,Fri Oct 23 13:13:22 CEST 2026,GET,http://127.0.0.1:5080/api/clients/3,200,OK,1,117,,false,
+3686,Proxy,Fri Oct 23 13:13:22 CEST 2026,PUT,http://127.0.0.1:5080/api/users/2,200,OK,7,105,,false,JSON
+3687,Proxy,Fri Oct 23 13:13:22 CEST 2026,GET,http://127.0.0.1:5080/api/bulkdata?page=1&pageSize=500,200,OK,0,20331,,false,
+3688,Proxy,Fri Oct 23 13:13:22 CEST 2026,DELETE,http://127.0.0.1:5080/api/admin/users/2,204,No Content,4,0,,false,
+3689,Proxy,Fri Oct 23 13:13:22 CEST 2026,GET,http://127.0.0.1:5080/,200,OK,1,67,,false,
+3690,Proxy,Fri Oct 23 13:13:28 CEST 2026,GET,http://127.0.0.1:5080/,200,OK,5,67,Medium,false,JSON
+3691,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,730,,false,
