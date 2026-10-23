@@ -38,4 +38,8 @@ Stuurde ik een Origin-header mee, dan werd Access-Control-Allow-Origin *, Histor
 
 De veilige modus heb ik deze keer niet gescand.
 
-De History-export staat in zap-history.csv. Het alert-rapport van 13:25 staat in 2026-10-23-ZAP-Report-.html. In de csv is id 3691 een POST naar 127.0.0.1:8282, de MCP-poort. ZAP zet bij die regel de tijd op 1 januari 1970. Dat is de export, niet het tijdstip van de call.
+De History-export staat in zap-history.csv. Die heb ik niet gefilterd, maar het is ook niet de hele History. De ids springen van 42 naar 3682, en de actieve scan zit er niet in. Er staat één MCP-regel in, 3691. Dat is een latere zap_get_history, niet de spider of de scan. ZAP zet bij die regel de tijd op 1 januari 1970. Dat is de export, niet het tijdstip van de call.
+
+In de hele ZAP-History staan drie POSTs naar 127.0.0.1:8282: 3691, 3692 en 3693. 3692 is zap_version, 3693 is nog een zap_get_history. Alle drie zijn van na de scan. zap_create_context, zap_start_spider, zap_start_active_scan en zap_read_resource staan er niet in. Bijlage C zegt dat elk MCP-verzoek in de History komt. Dat klopte hier niet.
+
+Het alert-rapport van 13:25 staat in 2026-10-23-ZAP-Report-.html. Daar stond het login-token nog in. Dat heb ik zelf vervangen door [weggelaten]. De rest van het rapport is niet aangepast.
