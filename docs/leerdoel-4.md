@@ -16,29 +16,29 @@ In active-scan.csv geeft GET /api/clients?search= een 500, bijvoorbeeld id 805 o
 
 ZAP meldde SQL injection op GET /api/clients, parameter search. Alert 40018, risico High, confidence Low, gezet door de active scanner. In het rapport van 14:14 is het voorbeeld die request: 500, body 1681 bytes, 14:07:22. In active-scan.csv is dat id 805, om 14:07:23. X-Content-Type-Options telt het rapport 4 keer (Low, plugin 10021). Kestrel stond er alleen als informational.
 
-De andere punten zaten niet tussen de alerts. Die heb ik in een eerdere sessie zelf bekeken, via de proxy, met X-Test-Run: leerdoel-4-hand. Die history-ids zitten niet in de huidige zap-history.csv.
+De andere punten zaten niet tussen de alerts van de scan. Die heb ik daarna met scripts/handtests.ps1 gedaan, via de proxy, header X-Test-Run: leerdoel-4-hand, om 14:22. De ids hieronder komen uit ZAP. zap-history.csv loopt tot 3300 en heeft deze requests nog niet.
 
-Als account-a kreeg ik client 3 terug (History 3685, status 200). Die client heeft ownerId 2 en hoort dus bij account-b.
+Twee foute logins gaven allebei 401, maar niet dezelfde tekst. Een onbekende gebruiker kreeg "Onbekende gebruiker." (History 3303). Een fout wachtwoord bij account-a kreeg "Onjuist wachtwoord." (History 3304). Een 429 kwam niet terug.
 
-Een PUT op user 2 waarin ik role meegaf, gaf 200 en role admin terug (History 3686). Ik was op dat moment account-a.
+Als account-a kreeg ik client 3 terug (History 3306, status 200). Die client heeft ownerId 2 en hoort dus bij account-b.
 
-Twee foute logins gaven allebei 401, maar niet dezelfde tekst. Bij een onbekende gebruiker stond "Onbekende gebruiker." (History 3682). Bij een fout wachtwoord voor account-a stond "Onjuist wachtwoord." (History 3683). Een 429 kwam niet terug.
+Een PUT op user 2 met alleen role admin gaf 200 en role admin terug (History 3307). Ik was account-a.
 
-pageSize 500 op /api/bulkdata gaf 200. In het antwoord stond pageSize 500 en alle 250 regels (History 3687).
+pageSize 500 op /api/bulkdata gaf 200. In het antwoord stond pageSize 500 en total 250 (History 3308).
 
-DELETE /api/admin/users/2 als account-a gaf 204 (History 3688). Account-b is daarmee weg tot de app opnieuw start. Bij een herstart wordt de database weer gevuld.
+GET / met Origin https://example.test gaf Access-Control-Allow-Origin: * (History 3309). De passieve scanner zette daar meteen alert 10098 op, Cross-Domain Misconfiguration, Medium. Het rapport van 14:14 was daarvoor gemaakt en heeft die alert dus niet. De active scan stuurde geen Origin-header mee.
 
-Het rapport van 14:14 heeft geen CORS-alert. Alert 10098 stond in het oude rapport van 13:25, op History 3690. Dat bestand is vervangen. Die id zit niet in de csv van deze run, en active-scan.csv stuurt geen Origin-header mee.
+DELETE /api/admin/users/2 als account-a gaf 204 (History 3310). Account-b is daarmee weg tot de app opnieuw start.
 
 | Punt | Endpoint | Door ZAP | Zelf nagelopen |
 | --- | --- | --- | --- |
-| API1 | GET /api/clients/{id} | nee | ja, History 3685, status 200 voor een client van account-b |
-| API3 | PUT /api/users/{id} | nee | ja, History 3686, role werd admin |
-| API2 | POST /api/login | nee | ja, History 3682 en 3683, twee verschillende 401-teksten |
-| API4 | GET /api/bulkdata | nee | ja, History 3687, pageSize 500 werd geaccepteerd |
-| API5 | DELETE /api/admin/users/{id} | nee | ja, History 3688, status 204 zonder admin-rol |
+| API1 | GET /api/clients/{id} | nee | ja, History 3306, status 200, ownerId 2 |
+| API3 | PUT /api/users/{id} | nee | ja, History 3307, role werd admin |
+| API2 | POST /api/login | nee | ja, History 3303 en 3304, twee verschillende 401-teksten |
+| API4 | GET /api/bulkdata | nee | ja, History 3308, pageSize 500, total 250 |
+| API5 | DELETE /api/admin/users/{id} | nee | ja, History 3310, status 204 zonder admin-rol |
 | SQL-injectie | GET /api/clients?search= | ja, alert 40018. In active-scan.csv id 805, 500. De alert wijst naar History 814, die niet in de csv staat | de body van 805 is 1681 bytes. Geen aparte stacktrace-alert in de csv |
-| API8 | headers, CORS, fouttekst | deels. Het rapport van 14:14 telt X-Content-Type-Options 4 keer. Geen CORS-alert | Server-header Kestrel. 10098 zat alleen in het vervangen rapport van 13:25 |
+| API8 | headers, CORS, fouttekst | deels. Het rapport van 14:14 telt X-Content-Type-Options 4 keer. CORS-alert 10098 kwam daarna, op History 3309 | Server-header Kestrel. De scan stuurde geen Origin-header mee |
 
 De veilige modus heb ik deze keer niet gescand.
 
