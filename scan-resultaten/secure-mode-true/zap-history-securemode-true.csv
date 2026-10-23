@@ -1,0 +1,40 @@
+ID,Source,Req. Timestamp,Method,URL,Code,Reason,RTT,Size Resp. Body,Highest Alert,Note,Tags
+1,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,96,,false,
+2,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,121,,false,
+3,Manual,Fri Oct 23 14:33:52 CEST 2026,GET,http://127.0.0.1:5080/openapi/v1.json,200,OK,90,16850,,false,JSON
+6,Manual,Fri Oct 23 14:33:52 CEST 2026,GET,http://127.0.0.1:5080/,200,OK,1,66,,false,JSON
+7,Manual,Fri Oct 23 14:33:52 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,26,36,Informational,false,JSON
+9,Manual,Fri Oct 23 14:33:52 CEST 2026,GET,http://127.0.0.1:5080/api/clients/10,401,Unauthorized,2,26,,false,JSON
+11,Manual,Fri Oct 23 14:33:52 CEST 2026,GET,http://127.0.0.1:5080/api/clients?search=ZAP,401,Unauthorized,2,26,,false,JSON
+12,Manual,Fri Oct 23 14:33:52 CEST 2026,GET,http://127.0.0.1:5080/api/users/10,401,Unauthorized,1,26,,false,JSON
+14,Manual,Fri Oct 23 14:33:52 CEST 2026,PUT,http://127.0.0.1:5080/api/users/10,401,Unauthorized,1,26,,false,JSON
+15,Manual,Fri Oct 23 14:33:52 CEST 2026,GET,http://127.0.0.1:5080/api/bulkdata?page=10&pageSize=10,401,Unauthorized,1,26,,false,JSON
+16,Manual,Fri Oct 23 14:33:52 CEST 2026,DELETE,http://127.0.0.1:5080/api/admin/users/10,401,Unauthorized,1,26,,false,JSON
+19,Proxy,Fri Oct 23 14:34:01 CEST 2026,POST,http://127.0.0.1:5080/api/login,200,OK,18,115,Informational,false,JSON
+20,Proxy,Fri Oct 23 14:34:01 CEST 2026,GET,http://127.0.0.1:5080/api/clients/1,200,OK,4,121,,false,JSON
+21,Proxy,Fri Oct 23 14:34:01 CEST 2026,GET,http://127.0.0.1:5080/api/clients?search=Kaas,200,OK,2,133,,false,JSON
+22,Proxy,Fri Oct 23 14:34:01 CEST 2026,GET,http://127.0.0.1:5080/api/users/1,200,OK,2,104,,false,JSON
+23,Proxy,Fri Oct 23 14:34:01 CEST 2026,PUT,http://127.0.0.1:5080/api/users/1,200,OK,2,104,,false,JSON
+24,Proxy,Fri Oct 23 14:34:01 CEST 2026,GET,http://127.0.0.1:5080/api/bulkdata?page=1&pageSize=20,200,OK,3,1628,,false,JSON
+68,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,124,,false,
+69,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,128,,false,
+214,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,128,,false,
+2480,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,127,,false,
+2604,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,128,,false,
+4903,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,127,,false,
+7325,Proxy,Fri Oct 23 14:34:54 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,8,36,,false,JSON
+7326,Proxy,Fri Oct 23 14:34:54 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,12,36,,false,
+7327,Proxy,Fri Oct 23 14:34:54 CEST 2026,POST,http://127.0.0.1:5080/api/login,200,OK,12,115,,false,JSON
+7328,Proxy,Fri Oct 23 14:34:54 CEST 2026,GET,http://127.0.0.1:5080/api/clients/3,404,Not Found,4,26,,false,
+7329,Proxy,Fri Oct 23 14:34:54 CEST 2026,PUT,http://127.0.0.1:5080/api/users/2,404,Not Found,0,26,,false,JSON
+7330,Proxy,Fri Oct 23 14:34:54 CEST 2026,GET,http://127.0.0.1:5080/api/bulkdata?page=1&pageSize=500,400,Bad Request,0,43,,false,
+7331,Proxy,Fri Oct 23 14:34:54 CEST 2026,GET,http://127.0.0.1:5080/,200,OK,0,66,,false,JSON
+7332,Proxy,Fri Oct 23 14:34:54 CEST 2026,DELETE,http://127.0.0.1:5080/api/admin/users/2,403,Forbidden,5,25,,false,
+7333,Proxy,Thu Jan 01 01:00:00 CET 1970,POST,http://127.0.0.1:8282/,200,,0,200,,false,
+7334,Proxy,Fri Oct 23 14:36:04 CEST 2026,POST,http://127.0.0.1:5080/api/login,200,OK,16,115,,false,JSON
+7335,Proxy,Fri Oct 23 14:36:04 CEST 2026,GET,http://127.0.0.1:5080/api/clients?search=%27,200,OK,1,12,,false,
+7336,Proxy,Fri Oct 23 14:36:04 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,9,36,,false,JSON
+7337,Proxy,Fri Oct 23 14:36:04 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,9,36,,false,
+7338,Proxy,Fri Oct 23 14:36:04 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,10,36,,false,JSON
+7339,Proxy,Fri Oct 23 14:36:04 CEST 2026,POST,http://127.0.0.1:5080/api/login,401,Unauthorized,10,36,,false,
+7340,Proxy,Fri Oct 23 14:36:04 CEST 2026,POST,http://127.0.0.1:5080/api/login,429,Too Many Requests,0,52,,false,JSON

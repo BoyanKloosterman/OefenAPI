@@ -18,3 +18,12 @@ Modus bij al deze regels: SecureMode false. Datum: 23-10-2026.
 | 23-10-2026 | 14:22 | 3308 | GET /api/bulkdata?page=1&pageSize=500 | false | pageSize begrensd | pageSize 500, total 250 | 200 | X-Test-Run leerdoel-4-hand, scripts/handtests.ps1 |
 | 23-10-2026 | 14:22 | 3309 | GET / met Origin https://example.test | false | geen open CORS | Access-Control-Allow-Origin *, alert 10098 | 200 | X-Test-Run leerdoel-4-hand, scripts/handtests.ps1 |
 | 23-10-2026 | 14:22 | 3310 | DELETE /api/admin/users/2 als account-a | false | 403 | user verwijderd | 204 | X-Test-Run leerdoel-4-hand, scripts/handtests.ps1 |
+| 23-10-2026 | 14:34 | 7325 | POST /api/login, onbekende gebruiker | true | dezelfde fouttekst | "Ongeldige inloggegevens." | 401 | X-Test-Run leerdoel-4-hand, SecureMode true |
+| 23-10-2026 | 14:34 | 7326 | POST /api/login, fout wachtwoord account-a | true | dezelfde fouttekst | "Ongeldige inloggegevens." | 401 | X-Test-Run leerdoel-4-hand, SecureMode true |
+| 23-10-2026 | 14:34 | 7328 | GET /api/clients/3 als account-a | true | niet de client van account-b | "Niet gevonden." | 404 | X-Test-Run leerdoel-4-hand, SecureMode true |
+| 23-10-2026 | 14:34 | 7329 | PUT /api/users/2 met role, als account-a | true | role niet te wijzigen | "Niet gevonden." | 404 | X-Test-Run leerdoel-4-hand, SecureMode true |
+| 23-10-2026 | 14:34 | 7330 | GET /api/bulkdata?page=1&pageSize=500 | true | pageSize begrensd | "pageSize mag maximaal 100 zijn." | 400 | X-Test-Run leerdoel-4-hand, SecureMode true |
+| 23-10-2026 | 14:34 | 7331 | GET / met Origin https://example.test | true | geen open CORS | geen Access-Control-Allow-Origin, wel nosniff | 200 | X-Test-Run leerdoel-4-hand, SecureMode true |
+| 23-10-2026 | 14:34 | 7332 | DELETE /api/admin/users/2 als account-a | true | 403 | "Geen toegang." | 403 | X-Test-Run leerdoel-4-hand, SecureMode true |
+| 23-10-2026 | 14:34 | 7335 | GET /api/clients?search= met een quote, account-a | true | geen 500 | 200, geen SQLite-fout | 200 | X-Test-Run leerdoel-4-veilig |
+| 23-10-2026 | 14:34 | 7340 | extra foute logins na het script | true | 429 na te veel pogingen | "Te veel inlogpogingen. Wacht een minuut." | 429 | X-Test-Run leerdoel-4-veilig |

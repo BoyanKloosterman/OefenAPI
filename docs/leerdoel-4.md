@@ -40,7 +40,15 @@ DELETE /api/admin/users/2 als account-a gaf 204 (History 3310). Account-b is daa
 | SQL-injectie | GET /api/clients?search= | ja, alert 40018. In active-scan.csv id 805, 500. De alert wijst naar History 814, die niet in de csv staat | de body van 805 is 1681 bytes. Geen aparte stacktrace-alert in de csv |
 | API8 | headers, CORS, fouttekst | deels. Het rapport van 14:23 telt X-Content-Type-Options 4 keer. CORS-alert 10098 staat op History 3309 | Server-header Kestrel. De scan stuurde geen Origin-header mee |
 
-De veilige modus heb ik deze keer niet gescand.
+De veilige modus heb ik daarna wel gedaan. SecureMode stond op true en de app was opnieuw gestart. GET / gaf secureMode true. Ik maakte context OefenApiVeilig en importeerde de OpenAPI-spec opnieuw via de ZAP-API. Dezelfde gewone requests, nu met X-Test-Run: leerdoel-4-veilig, gaven allemaal 200.
+
+zap_start_spider gaf weer spider-0, meteen op 100%. Een nieuwe actieve scan via MCP bleef op de oude ascan-0 hangen. De scan heb ik daarom via de ZAP-API gestart, scan-id 2, History 4904 tot 7324.
+
+scripts/handtests.ps1 draaide om 14:34, via de proxy. Deze history-ids staan nog niet in zap-history.csv. History 7325 en 7326 waren allebei 401, allebei de tekst "Ongeldige inloggegevens." Client 3 als account-a was 404 (History 7328). PUT op user 2 met role was ook 404 (History 7329). pageSize 500 was 400, "pageSize mag maximaal 100 zijn." (History 7330). GET / met Origin was 200 zonder Access-Control-Allow-Origin (History 7331). Wel X-Content-Type-Options, X-Frame-Options DENY en een Content-Security-Policy. Geen Server-header. DELETE van user 2 was 403, "Geen toegang." (History 7332).
+
+Het script zelf haalt de loginlimiet niet. Daarna heb ik nog foute wachtwoorden gestuurd. History 7340 was 429, "Te veel inlogpogingen. Wacht een minuut." Een quote in search, ingelogd als account-a, gaf 200 en geen SQLite-fout (History 7335). In de onveilige scan was zo'n request een 500.
+
+In appsettings.json staat SecureMode daarna weer op false. De app die nog draait blijft true tot een herstart.
 
 De History-export staat in zap-history.csv. Er staan 56 regels in, tot en met id 3331. ZAP toont de requests van de spider en de scan niet in het History-tabblad. Daarom springen de nummers, van 40 naar 86 en van 259 naar 3298. De scanrequests staan in active-scan.csv.
 
