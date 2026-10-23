@@ -1,5 +1,7 @@
 # Testplan
 
+Ingevuld na de tests op 23 oktober.
+
 | ID | Endpoint | Wat ik test | Verwachte uitkomst |
 | --- | --- | --- | --- |
 | 1 | POST /api/login | Inloggen als account-a | 200 en een bearer token |

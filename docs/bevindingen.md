@@ -135,7 +135,7 @@ De score gaat over de foutmelding die ik zag, een 500 met een SQLite-fout. Ik he
 
 ### Bewijs
 
-- ZAP History-ID: 805 in active-scan.csv, 14:07:23, status 500, body 1681 bytes. Alert 40018 wijst naar History 814, die niet in de csv staat. Bij SecureMode true gaf dezelfde soort request 200, History 7335, geen SQLite-fout.
+- ZAP History-ID: 805 in scan-resultaten/secure-mode-false/active-scan-securemode-false.csv, 14:07:23, status 500, body 1681 bytes. Alert 40018 wijst naar History 814, die niet in die csv staat. Bij SecureMode true gaf dezelfde soort request 200, History 7335, geen SQLite-fout. Die staat in scan-resultaten/secure-mode-true/zap-history-securemode-true.csv.
 - X-Request-Id: voor 805 niet genoteerd. Voor 7335 is dat 577b2afa-ed57-4bea-aa71-2ae465ff742d.
 - Screenshot: geen. Het rapport van 14:23 heeft het 500-antwoord.
 

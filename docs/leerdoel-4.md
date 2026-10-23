@@ -6,17 +6,17 @@ Vanuit Cursor, via MCP, heb ik deze tools aangeroepen. zap_version gaf 2.17.0. z
 
 De OpenAPI-import ging niet via MCP. Die tool zit er niet bij. Ik heb de ZAP-API aangeroepen via de proxy op 127.0.0.1:8080, pad /JSON/openapi/action/importUrl/. De spec was http://127.0.0.1:5080/openapi/v1.json, de target dezelfde host, context-id 2. In de Sites-lijst stonden daarna de paden, onder andere /api/login en /api/clients/1. Bij /api/admin/users/10 heeft ZAP zelf een voorbeeld-id gekozen.
 
-De gewone requests gingen via de proxy op 127.0.0.1:8080, met de header X-Test-Run: leerdoel-4. Ik logde in als account-a, haalde mijn eigen client op, zocht op Kaas, haalde mijn eigen user op, deed een gewone PUT en vroeg bulkdata met pageSize 20. In zap-history.csv zijn dat de nummers 35 tot en met 40, om 14:07:06. Allemaal status 200.
+De gewone requests gingen via de proxy op 127.0.0.1:8080, met de header X-Test-Run: leerdoel-4. Ik logde in als account-a, haalde mijn eigen client op, zocht op Kaas, haalde mijn eigen user op, deed een gewone PUT en vroeg bulkdata met pageSize 20. In scan-resultaten/secure-mode-false/zap-history-securemode-false.csv zijn dat de nummers 35 tot en met 40, om 14:07:06. Allemaal status 200.
 
-De spider-export staat in spider.csv. Dat zijn 18 URL's, allemaal Seed. De eerste regel is de kop. ZAP nam robots.txt en sitemap.xml zelf als startpunt. Nieuwe paden kwamen daar niet uit. In deze run gaf de spider dezelfde 18 URL's, dus spider.csv is niet veranderd.
+De spider-export van de onveilige run staat in scan-resultaten/secure-mode-false/spider-securemode-false.csv. Dat zijn 18 URL's, allemaal Seed. De eerste regel is de kop. ZAP nam robots.txt en sitemap.xml zelf als startpunt. Nieuwe paden kwamen daar niet uit. In de veilige modus gaf de spider 17 URL's in plaats van 18, want /api/users/10 ontbreekt in scan-resultaten/secure-mode-true/spider-securemode-true.csv, en voor de conclusie maakt dat niets uit. De onveilige spider-export is niet opnieuw gevuld.
 
-De actieve scan op de context is ascan-0. De export daarvan is active-scan.csv: 3176 requests, id 88 tot 3297, van 14:07:21 tot 14:07:28. ZAP toont de requests van de spider en de scan niet in het History-tabblad. Daarom springen de nummers.
+De actieve scan op de context is ascan-0. De export daarvan is scan-resultaten/secure-mode-false/active-scan-securemode-false.csv: 3176 requests, id 88 tot 3297, van 14:07:21 tot 14:07:28. ZAP toont de requests van de spider en de scan niet in het History-tabblad. Daarom springen de nummers.
 
-In active-scan.csv geeft GET /api/clients?search= een 500, bijvoorbeeld id 805 om 14:07:23, body 1681 bytes. Alert 40018 (High, confidence Low) wijst naar History 814. Die id staat niet in de csv.
+In scan-resultaten/secure-mode-false/active-scan-securemode-false.csv geeft GET /api/clients?search= een 500, bijvoorbeeld id 805 om 14:07:23, body 1681 bytes. Alert 40018 (High, confidence Low) wijst naar History 814. Die id staat niet in de csv.
 
-ZAP meldde SQL injection op GET /api/clients, parameter search. Alert 40018, risico High, confidence Low, gezet door de active scanner. In het rapport van 14:23 is het voorbeeld die request: 500, body 1681 bytes, 14:07:22. In active-scan.csv is dat id 805, om 14:07:23. X-Content-Type-Options telt het rapport 4 keer (Low, plugin 10021). Kestrel stond er alleen als informational.
+ZAP meldde SQL injection op GET /api/clients, parameter search. Alert 40018, risico High, confidence Low, gezet door de active scanner. In het rapport van 14:23, scan-resultaten/secure-mode-false/2026-10-23-ZAP-Report-securemode-false.html, is het voorbeeld die request: 500, body 1681 bytes, 14:07:22. In de active-scan-csv is dat id 805, om 14:07:23. X-Content-Type-Options telt het rapport 4 keer (Low, plugin 10021). Kestrel stond er alleen als informational.
 
-De andere punten zaten niet tussen de alerts van de scan. Die heb ik daarna met scripts/handtests.ps1 gedaan, via de proxy, header X-Test-Run: leerdoel-4-hand, om 14:22. De ids hieronder staan in zap-history.csv.
+De andere punten zaten niet tussen de alerts van de scan. Die heb ik daarna met scripts/handtests.ps1 gedaan, via de proxy, header X-Test-Run: leerdoel-4-hand, om 14:22. De ids hieronder staan in scan-resultaten/secure-mode-false/zap-history-securemode-false.csv.
 
 Twee foute logins gaven allebei 401, maar niet dezelfde tekst. Een onbekende gebruiker kreeg "Onbekende gebruiker." (History 3303). Een fout wachtwoord bij account-a kreeg "Onjuist wachtwoord." (History 3304). Een 429 kwam niet terug.
 
@@ -37,21 +37,23 @@ DELETE /api/admin/users/2 als account-a gaf 204 (History 3310). Account-b is daa
 | API2 | POST /api/login | nee | ja, History 3303 en 3304, twee verschillende 401-teksten |
 | API4 | GET /api/bulkdata | nee | ja, History 3308, pageSize 500, total 250 |
 | API5 | DELETE /api/admin/users/{id} | nee | ja, History 3310, status 204 zonder admin-rol |
-| SQL-injectie | GET /api/clients?search= | ja, alert 40018. In active-scan.csv id 805, 500. De alert wijst naar History 814, die niet in de csv staat | de body van 805 is 1681 bytes. Geen aparte stacktrace-alert in de csv |
+| SQL-injectie | GET /api/clients?search= | ja, alert 40018. In active-scan-securemode-false.csv id 805, 500. De alert wijst naar History 814, die niet in de csv staat | de body van 805 is 1681 bytes. Geen aparte stacktrace-alert in de csv |
 | API8 | headers, CORS, fouttekst | deels. Het rapport van 14:23 telt X-Content-Type-Options 4 keer. CORS-alert 10098 staat op History 3309 | Server-header Kestrel. De scan stuurde geen Origin-header mee |
 
 De veilige modus heb ik daarna wel gedaan. SecureMode stond op true en de app was opnieuw gestart. GET / gaf secureMode true. Ik maakte context OefenApiVeilig en importeerde de OpenAPI-spec opnieuw via de ZAP-API. Dezelfde gewone requests, nu met X-Test-Run: leerdoel-4-veilig, gaven allemaal 200.
 
 zap_start_spider gaf weer spider-0, meteen op 100%. Een nieuwe actieve scan via MCP bleef op de oude ascan-0 hangen. De scan heb ik daarom via de ZAP-API gestart, scan-id 2, History 4904 tot 7324.
 
-scripts/handtests.ps1 draaide om 14:34, via de proxy. Deze history-ids staan nog niet in zap-history.csv. History 7325 en 7326 waren allebei 401, allebei de tekst "Ongeldige inloggegevens." Client 3 als account-a was 404 (History 7328). PUT op user 2 met role was ook 404 (History 7329). pageSize 500 was 400, "pageSize mag maximaal 100 zijn." (History 7330). GET / met Origin was 200 zonder Access-Control-Allow-Origin (History 7331). Wel X-Content-Type-Options, X-Frame-Options DENY en een Content-Security-Policy. Geen Server-header. DELETE van user 2 was 403, "Geen toegang." (History 7332).
+scripts/handtests.ps1 draaide om 14:34, via de proxy. Deze history-ids staan in scan-resultaten/secure-mode-true/zap-history-securemode-true.csv. History 7325 en 7326 waren allebei 401, allebei de tekst "Ongeldige inloggegevens." Client 3 als account-a was 404 (History 7328). PUT op user 2 met role was ook 404 (History 7329). pageSize 500 was 400, "pageSize mag maximaal 100 zijn." (History 7330). GET / met Origin was 200 zonder Access-Control-Allow-Origin (History 7331). Wel X-Content-Type-Options, X-Frame-Options DENY en een Content-Security-Policy. Geen Server-header. DELETE van user 2 was 403, "Geen toegang." (History 7332).
 
-Het script zelf haalt de loginlimiet niet. Daarna heb ik nog foute wachtwoorden gestuurd. History 7340 was 429, "Te veel inlogpogingen. Wacht een minuut." Een quote in search, ingelogd als account-a, gaf 200 en geen SQLite-fout (History 7335). In de onveilige scan was zo'n request een 500.
+Het script zelf haalt de loginlimiet niet. Daarna heb ik nog foute wachtwoorden gestuurd. History 7340, om 14:36, was 429, "Te veel inlogpogingen. Wacht een minuut." Een quote in search, ingelogd als account-a, gaf 200 en geen SQLite-fout (History 7335, ook 14:36). In de onveilige scan was zo'n request een 500. In scan-resultaten/secure-mode-true/active-scan-securemode-true.csv hebben 416 requests op /api/login status 429.
 
 In appsettings.json staat SecureMode daarna weer op false. De app die nog draait blijft true tot een herstart.
 
-De History-export staat in zap-history.csv. Er staan 56 regels in, tot en met id 3331. ZAP toont de requests van de spider en de scan niet in het History-tabblad. Daarom springen de nummers, van 40 naar 86 en van 259 naar 3298. De scanrequests staan in active-scan.csv.
+De History-export van de onveilige run staat in scan-resultaten/secure-mode-false/zap-history-securemode-false.csv. Er staan 56 regels in, tot en met id 3331. ZAP toont de requests van de spider en de scan niet in het History-tabblad. Daarom springen de nummers, van 40 naar 86 en van 259 naar 3298. De scanrequests staan in scan-resultaten/secure-mode-false/active-scan-securemode-false.csv.
 
-In zap-history.csv staan 33 POSTs naar 127.0.0.1:8282: 15 tot en met 18, 86, 87, 259, 3298 tot en met 3302, en 3311 tot en met 3331. De csv geeft geen toolnaam. 16 heeft status 202, de rest 200. ZAP zet de tijd op 1 januari 1970. Dat is de export, niet het tijdstip van de call.
+In die history-csv staan 33 POSTs naar 127.0.0.1:8282: 15 tot en met 18, 86, 87, 259, 3298 tot en met 3302, en 3311 tot en met 3331. De csv geeft geen toolnaam. 16 heeft status 202, de rest 200. ZAP zet de tijd op 1 januari 1970. Dat is de export, niet het tijdstip van de call.
 
-Het alert-rapport staat in 2026-10-23-ZAP-Report-.html. ZAP maakte het op 14:23:48, versie 2.17.0. Het login-token stond er twee keer voluit in. Dat heb ik zelf vervangen door [weggelaten]. De rest van het rapport is niet aangepast.
+Het rapport van de onveilige run staat in scan-resultaten/secure-mode-false/2026-10-23-ZAP-Report-securemode-false.html. ZAP maakte het op 14:23:48, versie 2.17.0. Het login-token stond er voluit in. Dat heb ik zelf vervangen door [weggelaten]. De rest van het rapport is niet aangepast.
+
+Het rapport van de veilige run staat in scan-resultaten/secure-mode-true/2026-10-23-ZAP-Report-securemode-true.html. ZAP maakte het op 14:40:48. Er staan alleen informational alerts in: Authentication Request Identified, Session Management Response Identified en User Agent Fuzzer. Geen SQL-injectie, geen CORS en geen missende X-Content-Type-Options.
